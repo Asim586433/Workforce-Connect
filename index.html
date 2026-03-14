@@ -1,0 +1,3552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce Connect - Complete Workforce Platform</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <style>
+        /* Global Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 4rem;
+            --spacing-xl: 8rem;
+            
+            --border-radius: 0.5rem;
+            --border-radius-sm: 0.25rem;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            color: white;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        /* Header */
+        .site-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) 0;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-md);
+        }
+
+        .main-nav a {
+            color: var(--gray-700);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .main-nav a:hover {
+            color: var(--primary);
+        }
+
+        .main-nav a.active {
+            color: var(--primary);
+        }
+
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-700);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .main-nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                transition: var(--transition);
+                padding: var(--spacing-md);
+            }
+            
+            .main-nav.active {
+                left: 0;
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .header-buttons {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="white" stroke-width="2"/></svg>') repeat;
+            background-size: 100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .hero-buttons .btn {
+            min-width: 200px;
+        }
+
+        /* Pathways Section */
+        .pathways-section {
+            padding: var(--spacing-lg) 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--gray-800);
+        }
+
+        .section-title p {
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pathways-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .pathway-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+        }
+
+        .pathway-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pathway-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-md);
+            font-size: 2rem;
+        }
+
+        .pathway-card:nth-child(2) .pathway-icon { background: var(--secondary); }
+        .pathway-card:nth-child(3) .pathway-icon { background: var(--accent); }
+        .pathway-card:nth-child(4) .pathway-icon { background: var(--danger); }
+
+        .pathway-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .pathway-description {
+            color: var(--gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: var(--spacing-lg) 0;
+            background: linear-gradient(135deg, var(--gray-800), var(--gray-900));
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: var(--spacing-lg) 0;
+            background: white;
+        }
+
+        .testimonials-carousel {
+            position: relative;
+            overflow: hidden;
+            padding: var(--spacing-md) 0;
+        }
+
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-card {
+            flex: 0 0 calc(33.333% - var(--spacing-md));
+            margin: 0 calc(var(--spacing-md) / 2);
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow);
+        }
+
+        .testimonial-content {
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            padding-left: var(--spacing-md);
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            opacity: 0.2;
+            color: var(--primary);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .author-info p {
+            margin-bottom: 0;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Latest Jobs */
+        .jobs-section {
+            padding: var(--spacing-lg) 0;
+            background: var(--gray-100);
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .job-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .job-title {
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary);
+        }
+
+        .job-company {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .job-location {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--gray-500);
+            margin-bottom: var(--spacing-xs);
+            font-size: 0.875rem;
+        }
+
+        .job-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--gray-100);
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: var(--spacing-lg) 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .page-header p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Job Board Page */
+        .job-board-filters {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: var(--spacing-sm);
+        }
+
+        .job-listings {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .job-listing-item {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .job-listing-item:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateX(5px);
+        }
+
+        .job-listing-item.expanded {
+            grid-template-columns: 1fr;
+        }
+
+        .job-details {
+            display: none;
+            padding: var(--spacing-md);
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            margin-top: var(--spacing-sm);
+        }
+
+        .job-listing-item.expanded .job-details {
+            display: block;
+        }
+
+        /* Forms */
+        .form-section {
+            padding: var(--spacing-lg) 0;
+            background: var(--gray-100);
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-sm);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            cursor: pointer;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-lg);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gray-300);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-step {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid var(--gray-300);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            background: white;
+        }
+
+        .progress-step.completed {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .progress-step.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Employer Portal */
+        .portal-section {
+            padding: var(--spacing-lg) 0;
+            background: white;
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: var(--spacing-md) 0;
+        }
+
+        .portal-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .portal-nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .portal-nav-btn:hover,
+        .portal-nav-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        .portal-view {
+            display: none;
+            padding: var(--spacing-md) 0;
+        }
+
+        .portal-view.active {
+            display: block;
+        }
+
+        /* Admin Dashboard */
+        .admin-section {
+            padding: var(--spacing-lg) 0;
+            background: var(--gray-100);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: var(--spacing-xs);
+            border-bottom: 2px solid var(--gray-300);
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-500);
+            position: relative;
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+        }
+
+        .admin-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card h3 {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .chart-container {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .data-table {
+            width: 100%;
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--gray-100);
+            padding: var(--spacing-sm);
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: var(--spacing-sm);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Footer */
+        .site-footer {
+            background: var(--gray-800);
+            color: white;
+            padding: var(--spacing-lg) 0 var(--spacing-sm);
+        }
+
+        .footer-widgets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .footer-widget h4 {
+            color: white;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-widget ul {
+            list-style: none;
+        }
+
+        .footer-widget li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .footer-widget a {
+            color: var(--gray-400);
+        }
+
+        .footer-widget a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--gray-700);
+            color: var(--gray-400);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .pathways-grid,
+            .stats-grid,
+            .jobs-grid,
+            .footer-widgets,
+            .stats-cards,
+            .charts-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+            }
+            
+            .pathways-grid,
+            .stats-grid,
+            .jobs-grid,
+            .footer-widgets,
+            .stats-cards,
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-card {
+                flex: 0 0 calc(100% - var(--spacing-md));
+            }
+            
+            .admin-tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            border: 0;
+        }
+
+        :focus {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Workforce<span>Connect</span></h1>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="#home" class="nav-link" data-page="home">Home</a></li>
+                        <li><a href="#career-pathways" class="nav-link" data-page="pathways">Career Pathways</a></li>
+                        <li><a href="#job-board" class="nav-link" data-page="jobs">Job Board</a></li>
+                        <li><a href="#employer-portal" class="nav-link" data-page="employer">For Employers</a></li>
+                        <li><a href="#educator-resources" class="nav-link" data-page="educator">For Educators</a></li>
+                        <li><a href="#ambassador" class="nav-link" data-page="ambassador">Ambassadors</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="header-buttons">
+                    <a href="#employer-portal" class="btn btn-outline">Employer Portal</a>
+                    <a href="#intake-form" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <!-- Hero Section -->
+            <section id="home" class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Connect with Your Future in the Water Workforce</h1>
+                        <p class="hero-subtitle">Join thousands of professionals building meaningful careers in water management, treatment, and conservation.</p>
+                        <div class="hero-buttons">
+                            <a href="#intake-form" class="btn btn-primary btn-large">Find Your Path</a>
+                            <a href="#employer-portal" class="btn btn-outline btn-large">Hire Talent</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pathways Section -->
+            <section id="career-pathways" class="pathways-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Your Career Journey Starts Here</h2>
+                        <p>Explore four distinct pathways to engage with the water workforce ecosystem</p>
+                    </div>
+                    
+                    <div class="pathways-grid">
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <h3 class="pathway-title">I Want a Career in Water</h3>
+                            <p class="pathway-description">Discover rewarding careers, training programs, and advancement opportunities in the water industry.</p>
+                            <a href="#career-resources" class="btn btn-outline" onclick="showPage('career-resources')">Explore Careers</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3 class="pathway-title">I Want to Hire</h3>
+                            <p class="pathway-description">Access qualified candidates, post jobs, and build your workforce with our talent pipeline.</p>
+                            <a href="#employer-portal" class="btn btn-outline" onclick="showPage('employer')">Start Hiring</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h3 class="pathway-title">I Want to Educate</h3>
+                            <p class="pathway-description">Access curriculum resources, connect with industry partners, and prepare students for water careers.</p>
+                            <a href="#educator-resources" class="btn btn-outline" onclick="showPage('educator')">Get Resources</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3 class="pathway-title">I Want to Be an Ambassador</h3>
+                            <p class="pathway-description">Promote water careers in your community, mentor newcomers, and help shape the future workforce.</p>
+                            <a href="#ambassador" class="btn btn-outline" onclick="showPage('ambassador')">Become an Ambassador</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="total-candidates">2,847</div>
+                            <div class="stat-label">Active Candidates</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="total-employers">156</div>
+                            <div class="stat-label">Partner Employers</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="jobs-posted">423</div>
+                            <div class="stat-label">Jobs Posted</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="placements">892</div>
+                            <div class="stat-label">Successful Placements</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Latest Jobs Section -->
+            <section class="jobs-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Latest Job Opportunities</h2>
+                        <p>Discover your next career move in the water industry</p>
+                    </div>
+                    
+                    <div class="jobs-grid" id="jobs-grid">
+                        <!-- Jobs populated via JavaScript -->
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: var(--spacing-lg);">
+                        <a href="#job-board" class="btn btn-primary" onclick="showPage('jobs')">View All Jobs</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="testimonials-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Success Stories</h2>
+                        <p>Hear from professionals who found their path through Workforce Connect</p>
+                    </div>
+                    
+                    <div class="testimonials-carousel">
+                        <div class="testimonials-track" id="testimonials-track">
+                            <!-- Testimonials populated via JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-nav" id="carousel-nav">
+                        <!-- Dots populated via JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Career Pathways Page -->
+        <div id="career-resources-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Career Pathways in Water</h1>
+                    <p>Explore diverse career opportunities, training programs, and advancement paths in the water industry</p>
+                </div>
+            </div>
+            
+            <section class="pathways-section">
+                <div class="container">
+                    <div class="pathways-grid">
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3>Water Treatment</h3>
+                            <p>Operate and maintain equipment to purify water for consumption and industrial use.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">25+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('treatment')">Learn More</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-pipe-valve"></i>
+                            </div>
+                            <h3>Distribution Systems</h3>
+                            <p>Install, maintain, and repair water distribution infrastructure.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">18+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('distribution')">Learn More</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                            <h3>Wastewater Management</h3>
+                            <p>Treat and process wastewater to protect public health and the environment.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">22+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('wastewater')">Learn More</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <h3>Water Quality</h3>
+                            <p>Test and analyze water samples to ensure safety and compliance.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">15+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('quality')">Learn More</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-draw-polygon"></i>
+                            </div>
+                            <h3>Civil Engineering</h3>
+                            <p>Design water infrastructure projects including treatment plants and pipelines.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">12+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('engineering')">Learn More</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <div class="pathway-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Operations Management</h3>
+                            <p>Lead teams and manage water facility operations and compliance.</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">8+ Open Positions</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="viewCareerPath('management')">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="form-section">
+                <div class="container">
+                    <div class="form-container">
+                        <h3>Career Resources</h3>
+                        <div class="resources-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                            <div class="resource-item" style="padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-file-pdf" style="font-size: 2rem; color: var(--danger); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Resume Guide</h4>
+                                <p>Tips and templates for water industry resumes</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-sm);" onclick="downloadResource('resume-guide')">Download PDF</a>
+                            </div>
+                            
+                            <div class="resource-item" style="padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-video" style="font-size: 2rem; color: var(--primary); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Interview Prep</h4>
+                                <p>Video tutorials and practice questions</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-sm);" onclick="watchVideo('interview-prep')">Watch Now</a>
+                            </div>
+                            
+                            <div class="resource-item" style="padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-certificate" style="font-size: 2rem; color: var(--accent); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Certification Guide</h4>
+                                <p>Pathway to industry certifications</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-sm);" onclick="downloadResource('cert-guide')">Download PDF</a>
+                            </div>
+                            
+                            <div class="resource-item" style="padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-check-circle" style="font-size: 2rem; color: var(--secondary); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Career Checklist</h4>
+                                <p>Step-by-step career advancement guide</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-sm);" onclick="downloadResource('checklist')">Download PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Job Board Page -->
+        <div id="jobs-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Job Board</h1>
+                    <p>Find your next opportunity in the water industry</p>
+                </div>
+            </div>
+            
+            <section class="jobs-section">
+                <div class="container">
+                    <div class="job-board-filters">
+                        <div class="filter-row">
+                            <input type="text" class="form-input" id="job-search" placeholder="Search jobs, keywords..." onkeyup="filterJobs()">
+                            <select class="form-select" id="job-type-filter" onchange="filterJobs()">
+                                <option value="">All Types</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                            </select>
+                            <select class="form-select" id="job-location-filter" onchange="filterJobs()">
+                                <option value="">All Locations</option>
+                                <option value="Los Angeles">Los Angeles</option>
+                                <option value="San Francisco">San Francisco</option>
+                                <option value="Sacramento">Sacramento</option>
+                                <option value="San Diego">San Diego</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="filterJobs()">Search</button>
+                        </div>
+                    </div>
+                    
+                    <div class="job-listings" id="job-listings">
+                        <!-- Jobs populated via JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Employer Portal Page -->
+        <div id="employer-page" class="page">
+            <div class="portal-header">
+                <div class="container">
+                    <h1>Employer Portal</h1>
+                    <p>Manage your job postings and connect with qualified candidates</p>
+                    
+                    <div class="portal-nav">
+                        <button class="portal-nav-btn active" onclick="showPortalView('dashboard')">Dashboard</button>
+                        <button class="portal-nav-btn" onclick="showPortalView('candidates')">Candidate Search</button>
+                        <button class="portal-nav-btn" onclick="showPortalView('jobs')">Job Postings</button>
+                        <button class="portal-nav-btn" onclick="showPortalView('interactions')">Interactions</button>
+                        <button class="portal-nav-btn" onclick="showPortalView('profile')">Company Profile</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container">
+                <!-- Dashboard View -->
+                <div class="portal-view active" id="portal-dashboard">
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <h3>Active Jobs</h3>
+                            <div class="number" id="employer-active-jobs">12</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Candidates Viewed</h3>
+                            <div class="number" id="employer-views">347</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Interviews Scheduled</h3>
+                            <div class="number" id="employer-interviews">23</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Hires Reported</h3>
+                            <div class="number" id="employer-hires">8</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="employer-activity-chart"></canvas>
+                    </div>
+                    
+                    <h3>Recent Activity</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Candidate</th>
+                                <th>Action</th>
+                                <th>Job</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-activity-body">
+                            <!-- Populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Candidate Search View -->
+                <div class="portal-view" id="portal-candidates">
+                    <div class="search-filters" style="margin-bottom: var(--spacing-md);">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" class="form-input" placeholder="Search by skills, experience..." id="candidate-search-input">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select" id="experience-filter">
+                                    <option value="">Experience Level</option>
+                                    <option value="entry">Entry Level</option>
+                                    <option value="mid">Mid Level</option>
+                                    <option value="senior">Senior</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select" id="candidate-location-filter">
+                                    <option value="">Location</option>
+                                    <option value="CA">California</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="NY">New York</option>
+                                    <option value="FL">Florida</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="searchCandidates()">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="candidates-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md);" id="candidates-grid">
+                        <!-- Candidates populated via JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Job Postings View -->
+                <div class="portal-view" id="portal-jobs">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                        <h3>Your Job Postings</h3>
+                        <button class="btn btn-primary" onclick="showPostJobModal()">Post New Job</button>
+                    </div>
+                    
+                    <div id="employer-job-listings">
+                        <!-- Jobs populated via JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Interactions View -->
+                <div class="portal-view" id="portal-interactions">
+                    <h3>Candidate Interactions</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Candidate</th>
+                                <th>Type</th>
+                                <th>Notes</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="interactions-body">
+                            <!-- Interactions populated via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Profile View -->
+                <div class="portal-view" id="portal-profile">
+                    <form id="company-profile-form" onsubmit="updateCompanyProfile(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="company-name-profile">Company Name</label>
+                            <input type="text" id="company-name-profile" class="form-input" value="ABC Water Solutions">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contact-name">Contact Name</label>
+                            <input type="text" id="contact-name" class="form-input" value="John Smith">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="company-email">Email</label>
+                                <input type="email" id="company-email" class="form-input" value="john@abcwater.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="company-phone">Phone</label>
+                                <input type="tel" id="company-phone" class="form-input" value="(555) 123-4567">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="company-website">Website</label>
+                            <input type="url" id="company-website" class="form-input" value="https://www.abcwater.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="company-address">Address</label>
+                            <textarea id="company-address" class="form-textarea" rows="3">123 Business Park Dr, Suite 100, Los Angeles, CA 90001</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educator Resources Page -->
+        <div id="educator-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Educator Resources</h1>
+                    <p>Tools and materials to prepare students for careers in water</p>
+                </div>
+            </div>
+            
+            <section class="pathways-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Curriculum & Resources</h2>
+                        <p>Download ready-to-use lesson plans and educational materials</p>
+                    </div>
+                    
+                    <div class="resources-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+                        <div class="pathway-card">
+                            <i class="fas fa-book-open" style="font-size: 2rem; color: var(--primary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Lesson Plans</h3>
+                            <p>Complete lesson plans for environmental science and water education</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">12 Lessons</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="downloadResource('lesson-plans')">Download</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-video" style="font-size: 2rem; color: var(--secondary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Video Library</h3>
+                            <p>Educational videos about water treatment and conservation</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">24 Videos</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="watchVideo('library')">Watch Now</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-flask" style="font-size: 2rem; color: var(--accent); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Lab Activities</h3>
+                            <p>Hands-on laboratory activities for water quality testing</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">8 Activities</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="downloadResource('lab-activities')">Download</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-tools" style="font-size: 2rem; color: var(--danger); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Career Toolkits</h3>
+                            <p>Materials to help students explore water careers</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">6 Toolkits</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="downloadResource('career-toolkits')">Download</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-chart-bar" style="font-size: 2rem; color: var(--primary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Industry Data</h3>
+                            <p>Current statistics and trends in the water workforce</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">2024 Report</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="downloadResource('industry-data')">Download</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-users" style="font-size: 2rem; color: var(--secondary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Guest Speaker Guide</h3>
+                            <p>Connect with industry professionals for classroom visits</p>
+                            <div style="margin-top: var(--spacing-sm);">
+                                <span class="badge badge-info">50+ Speakers</span>
+                            </div>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="showSpeakerModal()">Find Speakers</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Ambassador Page -->
+        <div id="ambassador-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Become an Ambassador</h1>
+                    <p>Promote water careers and make a difference in your community</p>
+                </div>
+            </div>
+            
+            <section class="pathways-section">
+                <div class="container">
+                    <div class="pathways-grid">
+                        <div class="pathway-card">
+                            <i class="fas fa-bullhorn" style="font-size: 2rem; color: var(--primary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Outreach Toolkit</h3>
+                            <p>Materials for community presentations and events</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="downloadResource('outreach-toolkit')">Download</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-hand-holding-heart" style="font-size: 2rem; color: var(--secondary); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Mentorship Program</h3>
+                            <p>Guide newcomers in their water career journey</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="showMentorshipForm()">Become a Mentor</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-calendar-alt" style="font-size: 2rem; color: var(--accent); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Events</h3>
+                            <p>Upcoming career fairs and community events</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="showEvents()">View Events</a>
+                        </div>
+                        
+                        <div class="pathway-card">
+                            <i class="fas fa-award" style="font-size: 2rem; color: var(--danger); margin-bottom: var(--spacing-sm);"></i>
+                            <h3>Recognition</h3>
+                            <p>Earn badges and recognition for your service</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: var(--spacing-md);" onclick="showRecognition()">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="form-section">
+                <div class="container">
+                    <div class="form-container">
+                        <h3>Ambassador Application</h3>
+                        <form id="ambassador-form" onsubmit="submitAmbassadorApplication(event)">
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-name">Full Name</label>
+                                <input type="text" id="ambassador-name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-email">Email</label>
+                                <input type="email" id="ambassador-email" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-phone">Phone</label>
+                                <input type="tel" id="ambassador-phone" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-organization">Organization/Affiliation</label>
+                                <input type="text" id="ambassador-organization" class="form-input">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-experience">Years of Experience in Water Industry</label>
+                                <select id="ambassador-experience" class="form-select">
+                                    <option value="0-2">0-2 years</option>
+                                    <option value="3-5">3-5 years</option>
+                                    <option value="6-10">6-10 years</option>
+                                    <option value="10+">10+ years</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="ambassador-motivation">Why do you want to become an ambassador?</label>
+                                <textarea id="ambassador-motivation" class="form-textarea" rows="4"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div id="about-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>About Workforce Connect</h1>
+                    <p>Building the future of water workforce development</p>
+                </div>
+            </div>
+            
+            <section class="pathways-section">
+                <div class="container">
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <h2>Our Mission</h2>
+                        <p style="font-size: 1.125rem; margin-bottom: var(--spacing-lg);">Workforce Connect is dedicated to building a sustainable, diverse, and skilled workforce for the water industry. We connect job seekers with employers, provide educational resources, and support community ambassadors who promote water careers.</p>
+                        
+                        <h2>Our Impact</h2>
+                        <div class="stats-grid" style="color: var(--gray-800); margin-bottom: var(--spacing-lg);">
+                            <div class="stat-item">
+                                <div class="stat-number" style="color: var(--primary);">2,847+</div>
+                                <div class="stat-label">Job Seekers Served</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" style="color: var(--primary);">156+</div>
+                                <div class="stat-label">Employer Partners</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" style="color: var(--primary);">892+</div>
+                                <div class="stat-label">Job Placements</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" style="color: var(--primary);">45+</div>
+                                <div class="stat-label">Active Ambassadors</div>
+                            </div>
+                        </div>
+                        
+                        <h2>Our Partners</h2>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+                            <div style="text-align: center; padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-building" style="font-size: 3rem; color: var(--primary);"></i>
+                                <h4>Water Districts</h4>
+                                <p style="color: var(--gray-500);">12+ Partner Districts</p>
+                            </div>
+                            <div style="text-align: center; padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-graduation-cap" style="font-size: 3rem; color: var(--secondary);"></i>
+                                <h4>Educational Institutions</h4>
+                                <p style="color: var(--gray-500);">25+ Partner Schools</p>
+                            </div>
+                            <div style="text-align: center; padding: var(--spacing-md); background: var(--gray-100); border-radius: var(--border-radius);">
+                                <i class="fas fa-industry" style="font-size: 3rem; color: var(--accent);"></i>
+                                <h4>Industry Partners</h4>
+                                <p style="color: var(--gray-500);">40+ Companies</p>
+                            </div>
+                        </div>
+                        
+                        <h2>Our Team</h2>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+                            <div style="text-align: center;">
+                                <img src="https://randomuser.me/api/portraits/women/1.jpg" alt="Team member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: var(--spacing-sm);">
+                                <h4>Sarah Johnson</h4>
+                                <p style="color: var(--gray-500);">Executive Director</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="Team member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: var(--spacing-sm);">
+                                <h4>Michael Chen</h4>
+                                <p style="color: var(--gray-500);">Program Director</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Team member" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: var(--spacing-sm);">
+                                <h4>Patricia Williams</h4>
+                                <p style="color: var(--gray-500);">Employer Relations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Workforce Intake Form -->
+        <div id="intake-form-page" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Start Your Journey</h1>
+                    <p>Tell us about yourself and we'll connect you with the right opportunities</p>
+                </div>
+            </div>
+            
+            <section class="form-section">
+                <div class="container">
+                    <div class="form-container">
+                        <div class="progress-bar" id="form-progress">
+                            <div class="progress-step active">1</div>
+                            <div class="progress-step">2</div>
+                            <div class="progress-step">3</div>
+                            <div class="progress-step">4</div>
+                            <div class="progress-step">5</div>
+                        </div>
+                        
+                        <form id="workforce-intake-form" onsubmit="submitIntakeForm(event)">
+                            <!-- Step 1: Personal Info -->
+                            <div class="form-step active" data-step="1">
+                                <h3>Personal Information</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="first-name">First Name *</label>
+                                        <input type="text" id="first-name" class="form-input" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="last-name">Last Name *</label>
+                                        <input type="text" id="last-name" class="form-input" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email *</label>
+                                        <input type="email" id="email" class="form-input" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Phone</label>
+                                        <input type="tel" id="phone" class="form-input">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="city">City</label>
+                                        <input type="text" id="city" class="form-input">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="county">County</label>
+                                        <input type="text" id="county" class="form-input">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="state">State</label>
+                                    <select id="state" class="form-select">
+                                        <option value="">Select State</option>
+                                        <option value="AL">Alabama</option>
+                                        <option value="AK">Alaska</option>
+                                        <option value="AZ">Arizona</option>
+                                        <option value="AR">Arkansas</option>
+                                        <option value="CA">California</option>
+                                        <option value="CO">Colorado</option>
+                                        <option value="CT">Connecticut</option>
+                                        <option value="DE">Delaware</option>
+                                        <option value="FL">Florida</option>
+                                        <option value="GA">Georgia</option>
+                                        <option value="HI">Hawaii</option>
+                                        <option value="ID">Idaho</option>
+                                        <option value="IL">Illinois</option>
+                                        <option value="IN">Indiana</option>
+                                        <option value="IA">Iowa</option>
+                                        <option value="KS">Kansas</option>
+                                        <option value="KY">Kentucky</option>
+                                        <option value="LA">Louisiana</option>
+                                        <option value="ME">Maine</option>
+                                        <option value="MD">Maryland</option>
+                                        <option value="MA">Massachusetts</option>
+                                        <option value="MI">Michigan</option>
+                                        <option value="MN">Minnesota</option>
+                                        <option value="MS">Mississippi</option>
+                                        <option value="MO">Missouri</option>
+                                        <option value="MT">Montana</option>
+                                        <option value="NE">Nebraska</option>
+                                        <option value="NV">Nevada</option>
+                                        <option value="NH">New Hampshire</option>
+                                        <option value="NJ">New Jersey</option>
+                                        <option value="NM">New Mexico</option>
+                                        <option value="NY">New York</option>
+                                        <option value="NC">North Carolina</option>
+                                        <option value="ND">North Dakota</option>
+                                        <option value="OH">Ohio</option>
+                                        <option value="OK">Oklahoma</option>
+                                        <option value="OR">Oregon</option>
+                                        <option value="PA">Pennsylvania</option>
+                                        <option value="RI">Rhode Island</option>
+                                        <option value="SC">South Carolina</option>
+                                        <option value="SD">South Dakota</option>
+                                        <option value="TN">Tennessee</option>
+                                        <option value="TX">Texas</option>
+                                        <option value="UT">Utah</option>
+                                        <option value="VT">Vermont</option>
+                                        <option value="VA">Virginia</option>
+                                        <option value="WA">Washington</option>
+                                        <option value="WV">West Virginia</option>
+                                        <option value="WI">Wisconsin</option>
+                                        <option value="WY">Wyoming</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Preferred Contact Method</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="radio" name="preferred-contact" value="email"> Email
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="radio" name="preferred-contact" value="phone"> Phone
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="radio" name="preferred-contact" value="text"> Text
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-primary next-step" onclick="nextFormStep(1)">Next</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Career Stage -->
+                            <div class="form-step" data-step="2">
+                                <h3>Career Stage</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="career-stage">What best describes your current career stage? *</label>
+                                    <select id="career-stage" class="form-select" required onchange="toggleEmployerDetails()">
+                                        <option value="">Select Career Stage</option>
+                                        <option value="entry_level">Entry Level (0-3 years)</option>
+                                        <option value="mid_level">Mid Level (3-10 years)</option>
+                                        <option value="senior_employer">Senior Level / Employer (10+ years)</option>
+                                        <option value="educator">Educator</option>
+                                        <option value="ambassador">Ambassador / Community Leader</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="employment-status">Current Employment Status</label>
+                                    <select id="employment-status" class="form-select">
+                                        <option value="">Select Status</option>
+                                        <option value="employed">Employed Full-Time</option>
+                                        <option value="part-time">Employed Part-Time</option>
+                                        <option value="unemployed">Unemployed - Looking</option>
+                                        <option value="student">Student</option>
+                                        <option value="retired">Retired</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="prior-participation"> I have participated in workforce programs before
+                                    </label>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline prev-step" onclick="prevFormStep(2)">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step" onclick="nextFormStep(2)">Next</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Interests -->
+                            <div class="form-step" data-step="3">
+                                <h3>Areas of Interest</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">I'm interested in: (Select all that apply)</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="water-treatment"> Water Treatment
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="distribution"> Distribution Systems
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="wastewater"> Wastewater Management
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="environmental"> Environmental Compliance
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="engineering"> Engineering
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="operations"> Plant Operations
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="laboratory"> Laboratory & Testing
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="interests" value="management"> Management & Leadership
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="civil-service"> Interested in civil service positions
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="interview-assistance"> Need interview assistance
+                                    </label>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline prev-step" onclick="prevFormStep(3)">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step" onclick="nextFormStep(3)">Next</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 4: Employer Details (conditional) -->
+                            <div class="form-step" data-step="4" id="employer-details-step" style="display: none;">
+                                <h3>Employer Information</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="company-name">Company Name *</label>
+                                    <input type="text" id="company-name" class="form-input">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="job-title">Your Job Title *</label>
+                                    <input type="text" id="job-title" class="form-input">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="company-size">Company Size</label>
+                                    <select id="company-size" class="form-select">
+                                        <option value="">Select Size</option>
+                                        <option value="1-10">1-10 employees</option>
+                                        <option value="11-50">11-50 employees</option>
+                                        <option value="51-200">51-200 employees</option>
+                                        <option value="201-500">201-500 employees</option>
+                                        <option value="501+">501+ employees</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline prev-step" onclick="prevFormStep(4)">Previous</button>
+                                    <button type="button" class="btn btn-primary next-step" onclick="nextFormStep(4)">Next</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 5: Permissions -->
+                            <div class="form-step" data-step="5">
+                                <h3>Permissions & Consent</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">I agree to:</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="permissions" value="contact" required> Be contacted about opportunities *
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="permissions" value="share"> Share my profile with employers
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="permissions" value="newsletter"> Receive newsletter and updates
+                                        </label>
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" name="permissions" value="research"> Participate in research (optional)
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="additional-notes">Additional Notes or Questions</label>
+                                    <textarea id="additional-notes" class="form-textarea" rows="4"></textarea>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-outline prev-step" onclick="prevFormStep(5)">Previous</button>
+                                    <button type="submit" class="btn btn-primary">Submit Application</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div id="form-success" style="display: none; text-align: center; padding: var(--spacing-lg);">
+                            <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--secondary);"></i>
+                            <h3>Thank You for Applying!</h3>
+                            <p>We've received your information and will be in touch within 2-3 business days.</p>
+                            <p>Your application ID: <strong id="application-id"></strong></p>
+                            <button class="btn btn-primary" onclick="showPage('home')" style="margin-top: var(--spacing-md);">Return to Home</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Admin Dashboard (hidden by default) -->
+        <div id="admin-dashboard" class="page">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Admin Dashboard</h1>
+                    <p>Manage workforce pipeline and platform settings</p>
+                </div>
+            </div>
+            
+            <section class="admin-section">
+                <div class="container">
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" onclick="showAdminPanel('overview')">Overview</button>
+                        <button class="admin-tab" onclick="showAdminPanel('pipeline')">Pipeline</button>
+                        <button class="admin-tab" onclick="showAdminPanel('employers')">Employers</button>
+                        <button class="admin-tab" onclick="showAdminPanel('reports')">Reports</button>
+                        <button class="admin-tab" onclick="showAdminPanel('settings')">Settings</button>
+                    </div>
+                    
+                    <!-- Overview Panel -->
+                    <div class="admin-panel active" id="admin-overview">
+                        <div class="stats-cards">
+                            <div class="stat-card">
+                                <h3>Total Leads</h3>
+                                <div class="number" id="admin-total-leads">2,847</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>New This Month</h3>
+                                <div class="number" id="admin-new-leads">342</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Touchpoints</h3>
+                                <div class="number" id="admin-touchpoints">8,923</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Leads Placed</h3>
+                                <div class="number" id="admin-placed">892</div>
+                            </div>
+                        </div>
+                        
+                        <div class="charts-row">
+                            <div class="chart-container">
+                                <canvas id="career-stage-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="region-chart"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="timeline-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="pipeline-chart"></canvas>
+                        </div>
+                        
+                        <h3>Recent Leads</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Career Stage</th>
+                                    <th>Pipeline Stage</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-leads-body">
+                                <!-- Populated via JavaScript -->
+                            </tbody>
+                        </table>
+                        
+                        <button class="btn btn-primary" onclick="exportLeads()" style="margin-top: var(--spacing-md);">Export to CSV</button>
+                    </div>
+                    
+                    <!-- Pipeline Panel -->
+                    <div class="admin-panel" id="admin-pipeline">
+                        <h3>Pipeline Management</h3>
+                        <div class="pipeline-stages" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                            <div style="background: var(--gray-100); padding: var(--spacing-md); border-radius: var(--border-radius);">
+                                <h4>Interested</h4>
+                                <div class="number" style="font-size: 2rem;">1,245</div>
+                                <div style="margin-top: var(--spacing-sm);">
+                                    <span class="badge badge-info">43%</span>
+                                </div>
+                            </div>
+                            <div style="background: var(--gray-100); padding: var(--spacing-md); border-radius: var(--border-radius);">
+                                <h4>Contacted</h4>
+                                <div class="number" style="font-size: 2rem;">892</div>
+                                <div style="margin-top: var(--spacing-sm);">
+                                    <span class="badge badge-info">31%</span>
+                                </div>
+                            </div>
+                            <div style="background: var(--gray-100); padding: var(--spacing-md); border-radius: var(--border-radius);">
+                                <h4>Interviewed</h4>
+                                <div class="number" style="font-size: 2rem;">456</div>
+                                <div style="margin-top: var(--spacing-sm);">
+                                    <span class="badge badge-info">16%</span>
+                                </div>
+                            </div>
+                            <div style="background: var(--gray-100); padding: var(--spacing-md); border-radius: var(--border-radius);">
+                                <h4>Placed</h4>
+                                <div class="number" style="font-size: 2rem;">892</div>
+                                <div style="margin-top: var(--spacing-sm);">
+                                    <span class="badge badge-info">31%</span>
+                                </div>
+                            </div>
+                            <div style="background: var(--gray-100); padding: var(--spacing-md); border-radius: var(--border-radius);">
+                                <h4>Retained</h4>
+                                <div class="number" style="font-size: 2rem;">756</div>
+                                <div style="margin-top: var(--spacing-sm);">
+                                    <span class="badge badge-info">85%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <table class="data-table" style="margin-top: var(--spacing-md);">
+                            <thead>
+                                <tr>
+                                    <th>Lead</th>
+                                    <th>Current Stage</th>
+                                    <th>Last Activity</th>
+                                    <th>Next Step</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pipeline-leads-body">
+                                <!-- Populated via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Employers Panel -->
+                    <div class="admin-panel" id="admin-employers">
+                        <h3>Employer Management</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Jobs</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employers-body">
+                                <!-- Populated via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Reports Panel -->
+                    <div class="admin-panel" id="admin-reports">
+                        <h3>Generate Reports</h3>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                            <div class="stat-card" style="cursor: pointer;" onclick="generateReport('monthly')">
+                                <i class="fas fa-calendar-alt" style="font-size: 2rem; color: var(--primary); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Monthly Report</h4>
+                                <p>View activity for the current month</p>
+                            </div>
+                            <div class="stat-card" style="cursor: pointer;" onclick="generateReport('quarterly')">
+                                <i class="fas fa-chart-bar" style="font-size: 2rem; color: var(--secondary); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Quarterly Report</h4>
+                                <p>Quarterly performance metrics</p>
+                            </div>
+                            <div class="stat-card" style="cursor: pointer;" onclick="generateReport('employer')">
+                                <i class="fas fa-building" style="font-size: 2rem; color: var(--accent); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Employer Report</h4>
+                                <p>Employer engagement metrics</p>
+                            </div>
+                            <div class="stat-card" style="cursor: pointer;" onclick="generateReport('pipeline')">
+                                <i class="fas fa-users" style="font-size: 2rem; color: var(--danger); margin-bottom: var(--spacing-sm);"></i>
+                                <h4>Pipeline Report</h4>
+                                <p>Candidate pipeline analysis</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Panel -->
+                    <div class="admin-panel" id="admin-settings">
+                        <h3>System Settings</h3>
+                        <form onsubmit="saveSettings(event)">
+                            <div class="form-group">
+                                <label class="form-label">Site Title</label>
+                                <input type="text" class="form-input" value="Workforce Connect">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Contact Email</label>
+                                <input type="email" class="form-input" value="admin@workforceconnect.org">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Default Tenant ID</label>
+                                <input type="text" class="form-input" value="default">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">API Endpoint</label>
+                                <input type="text" class="form-input" value="https://api.workforceconnect.org/v1">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-widgets">
+                <div class="footer-widget">
+                    <h4>Workforce Connect</h4>
+                    <ul>
+                        <li><a href="#" onclick="showPage('about')">About Us</a></li>
+                        <li><a href="#" onclick="showContactModal()">Contact</a></li>
+                        <li><a href="#" onclick="showPage('career-resources')">Careers</a></li>
+                        <li><a href="#" onclick="showPage('about')">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>For Job Seekers</h4>
+                    <ul>
+                        <li><a href="#" onclick="showPage('jobs')">Job Board</a></li>
+                        <li><a href="#" onclick="showPage('career-resources')">Career Pathways</a></li>
+                        <li><a href="#" onclick="showPage('career-resources')">Resources</a></li>
+                        <li><a href="#" onclick="showPage('career-resources')">Training Programs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>For Employers</h4>
+                    <ul>
+                        <li><a href="#" onclick="showPage('employer')">Employer Portal</a></li>
+                        <li><a href="#" onclick="showPostJobModal()">Post a Job</a></li>
+                        <li><a href="#" onclick="showPage('employer')">Resume Bank</a></li>
+                        <li><a href="#" onclick="showPricingModal()">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-widget">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Workforce Connect. All rights reserved. | <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a> | <a href="#" onclick="showTerms()">Terms of Use</a> | <a href="#" onclick="showAccessibility()">Accessibility</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contact Us</h3>
+                <button class="modal-close" onclick="hideModal('contactModal')">&times;</button>
+            </div>
+            <form onsubmit="submitContact(event)">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="postJobModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post a New Job</h3>
+                <button class="modal-close" onclick="hideModal('postJobModal')">&times;</button>
+            </div>
+            <form onsubmit="submitJobPost(event)">
+                <div class="form-group">
+                    <label class="form-label">Job Title *</label>
+                    <input type="text" id="job-title-input" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Company *</label>
+                    <input type="text" id="job-company" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location *</label>
+                    <input type="text" id="job-location" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Job Type</label>
+                    <select id="job-type" class="form-select">
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Contract">Contract</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea id="job-description" class="form-textarea" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Requirements</label>
+                    <textarea id="job-requirements" class="form-textarea" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Job</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="pricingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Pricing Plans</h3>
+                <button class="modal-close" onclick="hideModal('pricingModal')">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+                <div class="stat-card" style="text-align: center;">
+                    <h4>Basic</h4>
+                    <div class="number" style="font-size: 2rem;">$0</div>
+                    <p>Free plan for small employers</p>
+                    <ul style="list-style: none; margin-top: var(--spacing-sm);">
+                        <li>✓ 1 job posting</li>
+                        <li>✓ Basic candidate search</li>
+                        <li>✓ Email support</li>
+                    </ul>
+                </div>
+                <div class="stat-card" style="text-align: center; border: 2px solid var(--primary);">
+                    <h4>Professional</h4>
+                    <div class="number" style="font-size: 2rem;">$299</div>
+                    <p>/month</p>
+                    <ul style="list-style: none; margin-top: var(--spacing-sm);">
+                        <li>✓ 5 job postings</li>
+                        <li>✓ Advanced candidate search</li>
+                        <li>✓ Resume bank access</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <h4>Enterprise</h4>
+                    <div class="number" style="font-size: 2rem;">$999</div>
+                    <p>/month</p>
+                    <ul style="list-style: none; margin-top: var(--spacing-sm);">
+                        <li>✓ Unlimited job postings</li>
+                        <li>✓ API access</li>
+                        <li>✓ Dedicated account manager</li>
+                        <li>✓ Custom integrations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: var(--secondary);"></i>
+        <span id="toast-message">Action completed successfully</span>
+    </div>
+
+    <!-- Hidden Admin Access Button -->
+    <div style="position: fixed; bottom: 20px; right: 20px;">
+        <button id="show-admin" class="btn btn-outline" style="background: white;" onclick="toggleAdmin()">Admin Access</button>
+    </div>
+
+    <script>
+        // ==================== Global Variables ====================
+        let currentPage = 'home';
+        let currentFormStep = 1;
+        let currentPortalView = 'dashboard';
+        let currentAdminPanel = 'overview';
+        let carouselInterval;
+        let carouselIndex = 0;
+        
+        // Sample Data
+        const sampleData = {
+            jobs: [
+                { id: 1, title: "Water Treatment Plant Operator", company: "City Water Department", location: "Los Angeles, CA", type: "Full-time", posted: "2 days ago", description: "Operate and maintain water treatment equipment including pumps, filters, and chemical feed systems. Monitor water quality and adjust treatment processes as needed." },
+                { id: 2, title: "Environmental Engineer", company: "EcoWater Solutions", location: "San Francisco, CA", type: "Full-time", posted: "3 days ago", description: "Design and implement water treatment systems for industrial clients. Conduct environmental impact assessments and ensure regulatory compliance." },
+                { id: 3, title: "Wastewater Technician", company: "Regional Water Authority", location: "Sacramento, CA", type: "Full-time", posted: "1 week ago", description: "Monitor and maintain wastewater treatment processes. Perform routine tests and maintain equipment." },
+                { id: 4, title: "Water Quality Specialist", company: "AquaPure Systems", location: "San Diego, CA", type: "Contract", posted: "5 days ago", description: "Conduct water quality testing and analysis. Prepare reports and recommend treatment adjustments." },
+                { id: 5, title: "Distribution System Operator", company: "Metro Water District", location: "Oakland, CA", type: "Full-time", posted: "4 days ago", description: "Maintain and repair water distribution systems. Respond to emergencies and conduct routine inspections." },
+                { id: 6, title: "Civil Engineer - Water Resources", company: "AECOM", location: "Irvine, CA", type: "Full-time", posted: "1 week ago", description: "Design water infrastructure projects including treatment plants and distribution systems." }
+            ],
+            
+            testimonials: [
+                { id: 1, name: "Sarah Johnson", role: "Water Treatment Operator", image: "https://randomuser.me/api/portraits/women/1.jpg", content: "Workforce Connect helped me transition from retail to a rewarding career in water treatment. The training resources and job board were invaluable." },
+                { id: 2, name: "Michael Chen", role: "Environmental Engineer", image: "https://randomuser.me/api/portraits/men/2.jpg", content: "Through this platform, I connected with my current employer and found the perfect role that matches my skills and career goals." },
+                { id: 3, name: "Patricia Williams", role: "Water Quality Manager", image: "https://randomuser.me/api/portraits/women/3.jpg", content: "As an employer, Workforce Connect has been essential for finding qualified candidates. The resume bank and candidate filtering save us so much time." },
+                { id: 4, name: "David Rodriguez", role: "Wastewater Technician", image: "https://randomuser.me/api/portraits/men/4.jpg", content: "The career coaching and certification prep materials helped me advance to a senior position within two years." },
+                { id: 5, name: "Emily Thompson", role: "Educator", image: "https://randomuser.me/api/portraits/women/5.jpg", content: "The educator resources and lesson plans have transformed how I teach environmental science. My students are more engaged than ever." },
+                { id: 6, name: "James Wilson", role: "Plant Supervisor", image: "https://randomuser.me/api/portraits/men/6.jpg", content: "From job seeker to supervisor in three years - Workforce Connect provided the connections and resources I needed to grow." }
+            ],
+            
+            candidates: [
+                { id: 1, name: "Alex Morgan", title: "Water Treatment Specialist", location: "Los Angeles, CA", experience: "5 years", skills: ["Water Treatment", "Laboratory Testing", "Safety Compliance"], education: "B.S. Environmental Science", availability: "Immediate" },
+                { id: 2, name: "Jessica Lee", title: "Environmental Engineer", location: "San Francisco, CA", experience: "3 years", skills: ["Wastewater Design", "AutoCAD", "Regulatory Compliance"], education: "M.S. Environmental Engineering", availability: "2 weeks" },
+                { id: 3, name: "Robert Taylor", title: "Senior Operator", location: "San Diego, CA", experience: "10 years", skills: ["Plant Operations", "Team Leadership", "Maintenance"], education: "T3 Certification", availability: "Immediate" },
+                { id: 4, name: "Maria Garcia", title: "Water Quality Analyst", location: "Sacramento, CA", experience: "2 years", skills: ["Laboratory Analysis", "Data Management", "Report Writing"], education: "B.S. Chemistry", availability: "1 month" }
+            ],
+            
+            recentLeads: [
+                { name: "John Doe", email: "john@email.com", careerStage: "Entry Level", pipelineStage: "Interested", created: "2024-01-15" },
+                { name: "Jane Smith", email: "jane@email.com", careerStage: "Mid Level", pipelineStage: "Contacted", created: "2024-01-14" },
+                { name: "Bob Johnson", email: "bob@email.com", careerStage: "Educator", pipelineStage: "Engaged", created: "2024-01-13" },
+                { name: "Alice Brown", email: "alice@email.com", careerStage: "Senior", pipelineStage: "Interviewed", created: "2024-01-12" },
+                { name: "Carlos Ruiz", email: "carlos@email.com", careerStage: "Entry Level", pipelineStage: "Placed", created: "2024-01-11" },
+                { name: "Diana Kim", email: "diana@email.com", careerStage: "Mid Level", pipelineStage: "Interviewed", created: "2024-01-10" },
+                { name: "Evan Wright", email: "evan@email.com", careerStage: "Ambassador", pipelineStage: "Retained", created: "2024-01-09" },
+                { name: "Fiona Chen", email: "fiona@email.com", careerStage: "Educator", pipelineStage: "Interested", created: "2024-01-08" }
+            ],
+            
+            employers: [
+                { company: "ABC Water Solutions", contact: "John Smith", email: "john@abcwater.com", status: "Approved", jobs: 5 },
+                { company: "City Water Department", contact: "Sarah Lee", email: "sarah@citywater.gov", status: "Approved", jobs: 8 },
+                { company: "Eco Solutions Inc", contact: "Mike Chen", email: "mike@ecosolutions.com", status: "Pending", jobs: 0 },
+                { company: "WaterTech Industries", contact: "Lisa Wang", email: "lisa@watertech.com", status: "Approved", jobs: 3 },
+                { company: "Regional Water Authority", contact: "Tom Brown", email: "tom@rwa.gov", status: "Approved", jobs: 6 },
+                { company: "PureFlow Systems", contact: "Anna Martinez", email: "anna@pureflow.com", status: "Suspended", jobs: 0 }
+            ],
+            
+            activities: [
+                { date: "2024-01-15", candidate: "Alex Morgan", action: "Resume Viewed", job: "Water Treatment Operator", status: "New" },
+                { date: "2024-01-14", candidate: "Jessica Lee", action: "Contacted", job: "Environmental Engineer", status: "In Progress" },
+                { date: "2024-01-13", candidate: "Robert Taylor", action: "Interview Scheduled", job: "Senior Operator", status: "Scheduled" },
+                { date: "2024-01-12", candidate: "Maria Garcia", action: "Hire Reported", job: "Water Quality Analyst", status: "Hired" }
+            ]
+        };
+
+        // ==================== Initialization ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            loadJobs();
+            loadTestimonials();
+            loadCandidates();
+            loadRecentLeads();
+            loadEmployers();
+            loadActivities();
+            initializeCharts();
+            startCarousel();
+            
+            // Set active nav link
+            setActiveNavLink('home');
+            
+            // Mobile menu toggle
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                document.getElementById('mainNav').classList.toggle('active');
+            });
+        });
+
+        function initializeData() {
+            if (!localStorage.getItem('workforceData')) {
+                localStorage.setItem('workforceData', JSON.stringify(sampleData));
+            }
+            if (!localStorage.getItem('applications')) {
+                localStorage.setItem('applications', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('employerJobs')) {
+                localStorage.setItem('employerJobs', JSON.stringify(sampleData.jobs));
+            }
+        }
+
+        // ==================== Page Navigation ====================
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const pageMap = {
+                'home': 'home-page',
+                'career-resources': 'career-resources-page',
+                'jobs': 'jobs-page',
+                'employer': 'employer-page',
+                'educator': 'educator-page',
+                'ambassador': 'ambassador-page',
+                'about': 'about-page',
+                'intake': 'intake-form-page',
+                'admin': 'admin-dashboard'
+            };
+            
+            const pageElement = document.getElementById(pageMap[pageId]);
+            if (pageElement) {
+                pageElement.classList.add('active');
+                currentPage = pageId;
+                setActiveNavLink(pageId);
+                
+                // Reinitialize charts if needed
+                if (pageId === 'admin' || pageId === 'employer') {
+                    setTimeout(() => {
+                        initializeCharts();
+                    }, 100);
+                }
+                
+                // Close mobile menu
+                document.getElementById('mainNav').classList.remove('active');
+            }
+        }
+
+        function setActiveNavLink(pageId) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // ==================== Form Navigation ====================
+        function nextFormStep(currentStep) {
+            const steps = document.querySelectorAll('.form-step');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            
+            if (currentStep < steps.length) {
+                steps[currentStep - 1].classList.remove('active');
+                steps[currentStep].classList.add('active');
+                
+                progressSteps[currentStep - 1].classList.add('completed');
+                progressSteps[currentStep].classList.add('active');
+                
+                currentFormStep = currentStep + 1;
+            }
+        }
+
+        function prevFormStep(currentStep) {
+            const steps = document.querySelectorAll('.form-step');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            
+            if (currentStep > 1) {
+                steps[currentStep - 1].classList.remove('active');
+                steps[currentStep - 2].classList.add('active');
+                
+                progressSteps[currentStep - 1].classList.remove('active');
+                progressSteps[currentStep - 2].classList.remove('completed');
+                
+                currentFormStep = currentStep - 1;
+            }
+        }
+
+        function toggleEmployerDetails() {
+            const careerStage = document.getElementById('career-stage').value;
+            const employerStep = document.getElementById('employer-details-step');
+            
+            if (careerStage === 'senior_employer') {
+                employerStep.style.display = 'block';
+            } else {
+                employerStep.style.display = 'none';
+            }
+        }
+
+        // ==================== Form Submissions ====================
+        function submitIntakeForm(event) {
+            event.preventDefault();
+            
+            const formData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                city: document.getElementById('city').value,
+                county: document.getElementById('county').value,
+                state: document.getElementById('state').value,
+                preferredContact: document.querySelector('input[name="preferred-contact"]:checked')?.value,
+                careerStage: document.getElementById('career-stage').value,
+                employmentStatus: document.getElementById('employment-status').value,
+                priorParticipation: document.getElementById('prior-participation').checked,
+                interests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.value),
+                civilService: document.getElementById('civil-service').checked,
+                interviewAssistance: document.getElementById('interview-assistance').checked,
+                companyName: document.getElementById('company-name')?.value,
+                jobTitle: document.getElementById('job-title')?.value,
+                companySize: document.getElementById('company-size')?.value,
+                permissions: Array.from(document.querySelectorAll('input[name="permissions"]:checked')).map(cb => cb.value),
+                notes: document.getElementById('additional-notes').value,
+                submittedAt: new Date().toISOString()
+            };
+            
+            const appId = 'WC-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            let applications = JSON.parse(localStorage.getItem('applications') || '[]');
+            applications.push({ id: appId, ...formData });
+            localStorage.setItem('applications', JSON.stringify(applications));
+            
+            document.getElementById('workforce-intake-form').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
+            document.getElementById('application-id').textContent = appId;
+            
+            showToast('Application submitted successfully!', 'success');
+            updateStats();
+        }
+
+        function submitContact(event) {
+            event.preventDefault();
+            hideModal('contactModal');
+            showToast('Message sent successfully! We\'ll respond within 24 hours.', 'success');
+        }
+
+        function submitJobPost(event) {
+            event.preventDefault();
+            
+            const newJob = {
+                id: Date.now(),
+                title: document.getElementById('job-title-input').value,
+                company: document.getElementById('job-company').value,
+                location: document.getElementById('job-location').value,
+                type: document.getElementById('job-type').value,
+                description: document.getElementById('job-description').value,
+                requirements: document.getElementById('job-requirements').value,
+                posted: 'Just now',
+                status: 'Active'
+            };
+            
+            let employerJobs = JSON.parse(localStorage.getItem('employerJobs') || '[]');
+            employerJobs.push(newJob);
+            localStorage.setItem('employerJobs', JSON.stringify(employerJobs));
+            
+            hideModal('postJobModal');
+            showToast('Job posted successfully!', 'success');
+            
+            // Refresh job listings
+            loadJobs();
+            loadEmployerJobs();
+        }
+
+        function submitAmbassadorApplication(event) {
+            event.preventDefault();
+            showToast('Ambassador application submitted! We\'ll contact you soon.', 'success');
+            showPage('home');
+        }
+
+        function updateCompanyProfile(event) {
+            event.preventDefault();
+            showToast('Company profile updated successfully!', 'success');
+        }
+
+        // ==================== Portal Navigation ====================
+        function showPortalView(view) {
+            document.querySelectorAll('.portal-view').forEach(v => {
+                v.classList.remove('active');
+            });
+            document.getElementById(`portal-${view}`).classList.add('active');
+            
+            document.querySelectorAll('.portal-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(view)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            currentPortalView = view;
+        }
+
+        // ==================== Admin Navigation ====================
+        function showAdminPanel(panel) {
+            document.querySelectorAll('.admin-panel').forEach(p => {
+                p.classList.remove('active');
+            });
+            document.getElementById(`admin-${panel}`).classList.add('active');
+            
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(panel)) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            currentAdminPanel = panel;
+        }
+
+        function toggleAdmin() {
+            const btn = document.getElementById('show-admin');
+            if (currentPage === 'admin') {
+                showPage('home');
+                btn.textContent = 'Admin Access';
+            } else {
+                showPage('admin');
+                btn.textContent = 'Close Admin';
+            }
+        }
+
+        // ==================== Data Loading ====================
+        function loadJobs() {
+            const jobsGrid = document.getElementById('jobs-grid');
+            const jobListings = document.getElementById('job-listings');
+            const jobs = sampleData.jobs;
+            
+            if (jobsGrid) {
+                jobsGrid.innerHTML = jobs.slice(0, 6).map(job => `
+                    <div class="job-card">
+                        <h3 class="job-title">${job.title}</h3>
+                        <div class="job-company">${job.company}</div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i> ${job.location}
+                        </div>
+                        <span class="job-type">${job.type}</span>
+                        <p style="margin: var(--spacing-sm) 0; color: var(--gray-600);">${job.description.substring(0, 100)}...</p>
+                        <div class="job-footer">
+                            <span style="color: var(--gray-500); font-size: 0.875rem;">Posted ${job.posted}</span>
+                            <button class="btn btn-outline" style="padding: 0.5rem 1rem;" onclick="showJobDetails(${job.id})">Apply Now</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            if (jobListings) {
+                jobListings.innerHTML = jobs.map(job => `
+                    <div class="job-listing-item" onclick="toggleJobDetails(${job.id})">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                            <div class="job-company">${job.company}</div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i> ${job.location}
+                            </div>
+                            <span class="job-type">${job.type}</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="color: var(--gray-500);">Posted ${job.posted}</span>
+                        </div>
+                        <div class="job-details" id="job-details-${job.id}">
+                            <h4>Job Description</h4>
+                            <p>${job.description}</p>
+                            <button class="btn btn-primary" onclick="applyForJob(${job.id})">Apply for this Position</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function loadTestimonials() {
+            const track = document.getElementById('testimonials-track');
+            const testimonials = sampleData.testimonials;
+            
+            if (track) {
+                track.innerHTML = testimonials.map(t => `
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">${t.content}</div>
+                        <div class="testimonial-author">
+                            <img src="${t.image}" alt="${t.name}">
+                            <div class="author-info">
+                                <h4>${t.name}</h4>
+                                <p>${t.role}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function loadCandidates() {
+            const candidatesGrid = document.getElementById('candidates-grid');
+            const candidates = sampleData.candidates;
+            
+            if (candidatesGrid) {
+                candidatesGrid.innerHTML = candidates.map(c => `
+                    <div class="job-card">
+                        <h3 class="job-title">${c.name}</h3>
+                        <div class="job-company">${c.title}</div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i> ${c.location}
+                        </div>
+                        <p style="margin: var(--spacing-sm) 0;">
+                            <strong>Experience:</strong> ${c.experience}<br>
+                            <strong>Education:</strong> ${c.education}
+                        </p>
+                        <div style="margin-bottom: var(--spacing-sm);">
+                            ${c.skills.map(s => `<span class="badge badge-info" style="margin-right: 0.25rem;">${s}</span>`).join('')}
+                        </div>
+                        <div class="job-footer">
+                            <span class="badge badge-success">Available: ${c.availability}</span>
+                            <button class="btn btn-outline" style="padding: 0.5rem 1rem;" onclick="viewCandidateProfile(${c.id})">View Profile</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function loadRecentLeads() {
+            const recentLeadsBody = document.getElementById('recent-leads-body');
+            const leads = sampleData.recentLeads;
+            
+            if (recentLeadsBody) {
+                recentLeadsBody.innerHTML = leads.map(lead => `
+                    <tr>
+                        <td>${lead.name}</td>
+                        <td>${lead.email}</td>
+                        <td>${lead.careerStage}</td>
+                        <td>
+                            <select class="form-select" style="width: auto;" onchange="updatePipelineStage(this, '${lead.name}')">
+                                <option value="Interested" ${lead.pipelineStage === 'Interested' ? 'selected' : ''}>Interested</option>
+                                <option value="Contacted" ${lead.pipelineStage === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                                <option value="Engaged" ${lead.pipelineStage === 'Engaged' ? 'selected' : ''}>Engaged</option>
+                                <option value="Interviewed" ${lead.pipelineStage === 'Interviewed' ? 'selected' : ''}>Interviewed</option>
+                                <option value="Placed" ${lead.pipelineStage === 'Placed' ? 'selected' : ''}>Placed</option>
+                                <option value="Retained" ${lead.pipelineStage === 'Retained' ? 'selected' : ''}>Retained</option>
+                            </select>
+                        </td>
+                        <td>${lead.created}</td>
+                        <td>
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="viewLead('${lead.name}')">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function loadEmployers() {
+            const employersBody = document.getElementById('employers-body');
+            const employers = sampleData.employers;
+            
+            if (employersBody) {
+                employersBody.innerHTML = employers.map(e => `
+                    <tr>
+                        <td>${e.company}</td>
+                        <td>${e.contact}</td>
+                        <td>${e.email}</td>
+                        <td><span class="badge badge-${e.status === 'Approved' ? 'success' : e.status === 'Pending' ? 'warning' : 'danger'}">${e.status}</span></td>
+                        <td>${e.jobs}</td>
+                        <td>
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="editEmployer('${e.company}')">Edit</button>
+                            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;" onclick="toggleEmployerStatus('${e.company}')">${e.status === 'Pending' ? 'Approve' : 'Suspend'}</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function loadActivities() {
+            const activityBody = document.getElementById('recent-activity-body');
+            const interactionsBody = document.getElementById('interactions-body');
+            const activities = sampleData.activities;
+            
+            if (activityBody) {
+                activityBody.innerHTML = activities.map(a => `
+                    <tr>
+                        <td>${a.date}</td>
+                        <td>${a.candidate}</td>
+                        <td>${a.action}</td>
+                        <td>${a.job}</td>
+                        <td><span class="badge badge-${a.status === 'Hired' ? 'success' : a.status === 'Scheduled' ? 'warning' : 'info'}">${a.status}</span></td>
+                    </tr>
+                `).join('');
+            }
+            
+            if (interactionsBody) {
+                interactionsBody.innerHTML = activities.map(a => `
+                    <tr>
+                        <td>${a.date}</td>
+                        <td>${a.candidate}</td>
+                        <td>${a.action}</td>
+                        <td>Interview scheduled for next week</td>
+                        <td><span class="badge badge-${a.status === 'Hired' ? 'success' : 'warning'}">${a.status}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function loadEmployerJobs() {
+            const employerJobsDiv = document.getElementById('employer-job-listings');
+            const jobs = JSON.parse(localStorage.getItem('employerJobs') || '[]');
+            
+            if (employerJobsDiv) {
+                employerJobsDiv.innerHTML = jobs.map(job => `
+                    <div class="job-card" style="margin-bottom: var(--spacing-sm);">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <h3 class="job-title">${job.title}</h3>
+                                <div class="job-company">${job.company}</div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${job.location}
+                                </div>
+                                <span class="job-type">${job.type}</span>
+                            </div>
+                            <span class="badge badge-success">${job.status || 'Active'}</span>
+                        </div>
+                        <p style="margin: var(--spacing-sm) 0;">${job.description}</p>
+                        <div style="display: flex; gap: var(--spacing-sm);">
+                            <button class="btn btn-outline" onclick="editJob(${job.id})">Edit</button>
+                            <button class="btn btn-outline" onclick="viewApplicants(${job.id})">View Applicants (${Math.floor(Math.random() * 10) + 1})</button>
+                            <button class="btn btn-outline" onclick="closeJob(${job.id})">Close</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ==================== Charts ====================
+        function initializeCharts() {
+            // Career Stage Chart
+            const careerCtx = document.getElementById('career-stage-chart')?.getContext('2d');
+            if (careerCtx) {
+                new Chart(careerCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Entry Level', 'Mid Level', 'Senior', 'Educator', 'Ambassador'],
+                        datasets: [{
+                            data: [45, 30, 15, 7, 3],
+                            backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: { display: true, text: 'Leads by Career Stage' }
+                        }
+                    }
+                });
+            }
+            
+            // Region Chart
+            const regionCtx = document.getElementById('region-chart')?.getContext('2d');
+            if (regionCtx) {
+                new Chart(regionCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['North', 'South', 'East', 'West', 'Central'],
+                        datasets: [{
+                            label: 'Number of Leads',
+                            data: [120, 85, 95, 110, 75],
+                            backgroundColor: '#2563eb'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false },
+                            title: { display: true, text: 'Leads by Region' }
+                        }
+                    }
+                });
+            }
+            
+            // Timeline Chart
+            const timelineCtx = document.getElementById('timeline-chart')?.getContext('2d');
+            if (timelineCtx) {
+                new Chart(timelineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'New Leads',
+                            data: [65, 78, 82, 95, 110, 125],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: { display: true, text: 'Leads Over Time' }
+                        }
+                    }
+                });
+            }
+            
+            // Pipeline Chart
+            const pipelineCtx = document.getElementById('pipeline-chart')?.getContext('2d');
+            if (pipelineCtx) {
+                new Chart(pipelineCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Interested', 'Contacted', 'Engaged', 'Interviewed', 'Placed'],
+                        datasets: [{
+                            label: 'Candidates',
+                            data: [500, 350, 200, 100, 50],
+                            backgroundColor: '#2563eb'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: { display: true, text: 'Pipeline Funnel' }
+                        }
+                    }
+                });
+            }
+            
+            // Employer Activity Chart
+            const employerCtx = document.getElementById('employer-activity-chart')?.getContext('2d');
+            if (employerCtx) {
+                new Chart(employerCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                        datasets: [
+                            {
+                                label: 'Resume Views',
+                                data: [45, 52, 48, 70],
+                                borderColor: '#2563eb',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Interviews',
+                                data: [12, 15, 18, 22],
+                                borderColor: '#10b981',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Hires',
+                                data: [3, 5, 4, 8],
+                                borderColor: '#f59e0b',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: { display: true, text: 'Employer Activity' }
+                        }
+                    }
+                });
+            }
+        }
+
+        // ==================== Carousel ====================
+        function startCarousel() {
+            const track = document.getElementById('testimonials-track');
+            const dots = document.getElementById('carousel-nav');
+            const testimonials = sampleData.testimonials;
+            
+            if (dots) {
+                dots.innerHTML = testimonials.map((_, i) => `
+                    <button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="goToCarouselSlide(${i})"></button>
+                `).join('');
+            }
+            
+            carouselInterval = setInterval(() => {
+                const total = testimonials.length;
+                carouselIndex = (carouselIndex + 1) % total;
+                updateCarousel(carouselIndex);
+            }, 5000);
+        }
+
+        function goToCarouselSlide(index) {
+            carouselIndex = index;
+            updateCarousel(index);
+        }
+
+        function updateCarousel(index) {
+            const track = document.getElementById('testimonials-track');
+            const cardWidth = document.querySelector('.testimonial-card')?.offsetWidth || 400;
+            
+            if (track) {
+                track.style.transform = `translateX(-${index * (cardWidth + 16)}px)`;
+            }
+            
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // ==================== Search and Filter ====================
+        function filterJobs() {
+            const searchTerm = document.getElementById('job-search')?.value.toLowerCase() || '';
+            const typeFilter = document.getElementById('job-type-filter')?.value || '';
+            const locationFilter = document.getElementById('job-location-filter')?.value || '';
+            
+            const jobs = sampleData.jobs;
+            const filtered = jobs.filter(job => {
+                const matchesSearch = job.title.toLowerCase().includes(searchTerm) || 
+                                     job.company.toLowerCase().includes(searchTerm) ||
+                                     job.description.toLowerCase().includes(searchTerm);
+                const matchesType = !typeFilter || job.type === typeFilter;
+                const matchesLocation = !locationFilter || job.location.includes(locationFilter);
+                
+                return matchesSearch && matchesType && matchesLocation;
+            });
+            
+            const jobListings = document.getElementById('job-listings');
+            if (jobListings) {
+                jobListings.innerHTML = filtered.map(job => `
+                    <div class="job-listing-item" onclick="toggleJobDetails(${job.id})">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                            <div class="job-company">${job.company}</div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i> ${job.location}
+                            </div>
+                            <span class="job-type">${job.type}</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="color: var(--gray-500);">Posted ${job.posted}</span>
+                        </div>
+                        <div class="job-details" id="job-details-${job.id}">
+                            <h4>Job Description</h4>
+                            <p>${job.description}</p>
+                            <button class="btn btn-primary" onclick="applyForJob(${job.id})">Apply for this Position</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function searchCandidates() {
+            const searchTerm = document.getElementById('candidate-search-input')?.value.toLowerCase() || '';
+            const experience = document.getElementById('experience-filter')?.value || '';
+            const location = document.getElementById('candidate-location-filter')?.value || '';
+            
+            const candidates = sampleData.candidates;
+            const filtered = candidates.filter(c => {
+                const matchesSearch = c.name.toLowerCase().includes(searchTerm) || 
+                                     c.title.toLowerCase().includes(searchTerm) ||
+                                     c.skills.some(s => s.toLowerCase().includes(searchTerm));
+                const matchesLocation = !location || c.location.includes(location);
+                
+                return matchesSearch && matchesLocation;
+            });
+            
+            const candidatesGrid = document.getElementById('candidates-grid');
+            if (candidatesGrid) {
+                candidatesGrid.innerHTML = filtered.map(c => `
+                    <div class="job-card">
+                        <h3 class="job-title">${c.name}</h3>
+                        <div class="job-company">${c.title}</div>
+                        <div class="job-location">
+                            <i class="fas fa-map-marker-alt"></i> ${c.location}
+                        </div>
+                        <p style="margin: var(--spacing-sm) 0;">
+                            <strong>Experience:</strong> ${c.experience}<br>
+                            <strong>Education:</strong> ${c.education}
+                        </p>
+                        <div style="margin-bottom: var(--spacing-sm);">
+                            ${c.skills.map(s => `<span class="badge badge-info" style="margin-right: 0.25rem;">${s}</span>`).join('')}
+                        </div>
+                        <div class="job-footer">
+                            <span class="badge badge-success">Available: ${c.availability}</span>
+                            <button class="btn btn-outline" style="padding: 0.5rem 1rem;" onclick="viewCandidateProfile(${c.id})">View Profile</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ==================== Actions ====================
+        function showJobDetails(jobId) {
+            const job = sampleData.jobs.find(j => j.id === jobId);
+            if (job) {
+                alert(`Job Details:\n\nTitle: ${job.title}\nCompany: ${job.company}\nLocation: ${job.location}\nType: ${job.type}\n\nDescription: ${job.description}\n\nThis would open the full job application page.`);
+            }
+        }
+
+        function toggleJobDetails(jobId) {
+            const element = document.getElementById(`job-details-${jobId}`);
+            const parent = element?.parentElement;
+            if (parent) {
+                parent.classList.toggle('expanded');
+            }
+        }
+
+        function applyForJob(jobId) {
+            showToast('Application submitted! The employer will review your application.', 'success');
+        }
+
+        function viewCandidateProfile(candidateId) {
+            const candidate = sampleData.candidates.find(c => c.id === candidateId);
+            if (candidate) {
+                alert(`Candidate Profile:\n\nName: ${candidate.name}\nTitle: ${candidate.title}\nLocation: ${candidate.location}\nExperience: ${candidate.experience}\nEducation: ${candidate.education}\nSkills: ${candidate.skills.join(', ')}\nAvailability: ${candidate.availability}\n\nThis would open the full candidate profile.`);
+            }
+        }
+
+        function viewCareerPath(path) {
+            showToast(`Loading ${path} career information...`, 'info');
+        }
+
+        function downloadResource(resource) {
+            showToast(`Downloading ${resource}...`, 'success');
+        }
+
+        function watchVideo(video) {
+            showToast(`Loading video: ${video}`, 'info');
+        }
+
+        function showSpeakerModal() {
+            alert('Speaker Directory:\n\nWe have 50+ industry professionals available for classroom visits. Please contact our office to schedule a speaker.');
+        }
+
+        function showMentorshipForm() {
+            alert('Mentorship Program Application:\n\nThank you for your interest in becoming a mentor! Please complete our mentorship application form.');
+        }
+
+        function showEvents() {
+            alert('Upcoming Events:\n\n• Water Career Fair - March 15, 2024\n• Industry Networking Night - April 5, 2024\n• Ambassador Training - April 20, 2024\n• Water Week Celebration - May 1-7, 2024');
+        }
+
+        function showRecognition() {
+            alert('Ambassador Recognition Program:\n\nEarn badges and recognition for:\n• Community Outreach (5+ events)\n• Mentorship (3+ mentees)\n• Excellence in Service\n• 1-Year Anniversary\n• 5-Year Anniversary');
+        }
+
+        function showPostJobModal() {
+            document.getElementById('postJobModal').classList.add('active');
+        }
+
+        function showPricingModal() {
+            document.getElementById('pricingModal').classList.add('active');
+        }
+
+        function showContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showPrivacyPolicy() {
+            alert('Privacy Policy:\n\nWe are committed to protecting your privacy. Your personal information is used only for workforce development purposes and is never sold to third parties.');
+        }
+
+        function showTerms() {
+            alert('Terms of Use:\n\nBy using Workforce Connect, you agree to our terms of service. Please use the platform responsibly and respect other users.');
+        }
+
+        function showAccessibility() {
+            alert('Accessibility Statement:\n\nWorkforce Connect is committed to providing an accessible platform for all users. We follow WCAG 2.1 AA guidelines and welcome feedback on accessibility.');
+        }
+
+        function updatePipelineStage(select, leadName) {
+            const stage = select.value;
+            showToast(`Updated ${leadName} to stage: ${stage}`, 'success');
+        }
+
+        function viewLead(leadName) {
+            alert(`Viewing profile for: ${leadName}`);
+        }
+
+        function editEmployer(companyName) {
+            alert(`Editing employer: ${companyName}`);
+        }
+
+        function toggleEmployerStatus(companyName) {
+            showToast(`Updated status for ${companyName}`, 'success');
+        }
+
+        function editJob(jobId) {
+            alert(`Editing job ID: ${jobId}`);
+        }
+
+        function viewApplicants(jobId) {
+            alert(`Viewing applicants for job ID: ${jobId}`);
+        }
+
+        function closeJob(jobId) {
+            showToast(`Job ${jobId} closed successfully`, 'success');
+        }
+
+        function exportLeads() {
+            const leads = sampleData.recentLeads;
+            let csv = 'Name,Email,Career Stage,Pipeline Stage,Created\n';
+            
+            leads.forEach(lead => {
+                csv += `${lead.name},${lead.email},${lead.careerStage},${lead.pipelineStage},${lead.created}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `leads-export-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            
+            showToast('Leads exported successfully!', 'success');
+        }
+
+        function generateReport(type) {
+            showToast(`Generating ${type} report...`, 'info');
+        }
+
+        function saveSettings(event) {
+            event.preventDefault();
+            showToast('Settings saved successfully!', 'success');
+        }
+
+        function updateStats() {
+            const applications = JSON.parse(localStorage.getItem('applications') || '[]').length;
+            document.getElementById('total-candidates').textContent = 2847 + applications;
+        }
+
+        // ==================== Toast Notifications ====================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toast.className = 'toast ' + type;
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ==================== Make functions globally available ====================
+        window.showPage = showPage;
+        window.nextFormStep = nextFormStep;
+        window.prevFormStep = prevFormStep;
+        window.toggleEmployerDetails = toggleEmployerDetails;
+        window.submitIntakeForm = submitIntakeForm;
+        window.submitContact = submitContact;
+        window.submitJobPost = submitJobPost;
+        window.submitAmbassadorApplication = submitAmbassadorApplication;
+        window.updateCompanyProfile = updateCompanyProfile;
+        window.showPortalView = showPortalView;
+        window.showAdminPanel = showAdminPanel;
+        window.toggleAdmin = toggleAdmin;
+        window.filterJobs = filterJobs;
+        window.searchCandidates = searchCandidates;
+        window.showJobDetails = showJobDetails;
+        window.toggleJobDetails = toggleJobDetails;
+        window.applyForJob = applyForJob;
+        window.viewCandidateProfile = viewCandidateProfile;
+        window.viewCareerPath = viewCareerPath;
+        window.downloadResource = downloadResource;
+        window.watchVideo = watchVideo;
+        window.showSpeakerModal = showSpeakerModal;
+        window.showMentorshipForm = showMentorshipForm;
+        window.showEvents = showEvents;
+        window.showRecognition = showRecognition;
+        window.showPostJobModal = showPostJobModal;
+        window.showPricingModal = showPricingModal;
+        window.showContactModal = showContactModal;
+        window.hideModal = hideModal;
+        window.showPrivacyPolicy = showPrivacyPolicy;
+        window.showTerms = showTerms;
+        window.showAccessibility = showAccessibility;
+        window.updatePipelineStage = updatePipelineStage;
+        window.viewLead = viewLead;
+        window.editEmployer = editEmployer;
+        window.toggleEmployerStatus = toggleEmployerStatus;
+        window.editJob = editJob;
+        window.viewApplicants = viewApplicants;
+        window.closeJob = closeJob;
+        window.exportLeads = exportLeads;
+        window.generateReport = generateReport;
+        window.saveSettings = saveSettings;
+        window.goToCarouselSlide = goToCarouselSlide;
+    </script>
+</body>
+</html>
